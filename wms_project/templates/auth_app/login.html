@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - WMS</title>
+    <link href="https://cdn.tailwindcss.com" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        /* Optional: Add a little transition for smoother hover effects if not handled by GSAP directly */
+        .form-element { transition: transform 0.2s ease-out; }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div id="loginBox" class="bg-white p-8 rounded-lg shadow-md w-full max-w-sm opacity-0 transform scale-95">
+        <h2 id="loginTitle" class="text-2xl font-bold mb-6 text-center text-gray-700">WMS Login</h2>
+        <form action="#" method="POST"> <!-- Action and method will be updated by Django -->
+            <div class="mb-4 form-element">
+                <label for="email" class="block text-sm font-medium text-gray-600">Email Address</label>
+                <input type="email" id="email" name="email" required
+                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                       placeholder="you@example.com">
+            </div>
+            <div class="mb-6 form-element">
+                <label for="password" class="block text-sm font-medium text-gray-600">Password</label>
+                <input type="password" id="password" name="password" required
+                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                       placeholder="••••••••">
+            </div>
+            <div class="flex items-center justify-between mb-6 form-element">
+                <div class="flex items-center">
+                    <input id="remember-me" name="remember-me" type="checkbox"
+                           class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                    <label for="remember-me" class="ml-2 block text-sm text-gray-900"> Remember me </label>
+                </div>
+                <div class="text-sm">
+                    <a href="#" id="forgotPasswordLink" class="font-medium text-indigo-600 hover:text-indigo-500"> Forgot your password? </a> <!-- Link to password_reset.html -->
+                </div>
+            </div>
+            <div>
+                <button type="submit" id="loginButton"
+                        class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transform hover:scale-105 transition-transform duration-150 ease-in-out">
+                    Login
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initial animation for the login box
+            gsap.to("#loginBox", { duration: 0.7, opacity: 1, scale: 1, ease: "power2.out", delay: 0.2 });
+
+            // Animate title
+            gsap.from("#loginTitle", { duration: 0.5, opacity: 0, y: -20, ease: "power2.out", delay: 0.5 });
+
+            // Stagger animation for form elements
+            gsap.from(".form-element", {
+                duration: 0.5,
+                opacity: 0,
+                y: 20,
+                stagger: 0.15,
+                ease: "power2.out",
+                delay: 0.7
+            });
+
+            // Button hover animation (GSAP can enhance this, but Tailwind's is often sufficient)
+            const loginButton = document.getElementById('loginButton');
+            loginButton.addEventListener('mouseenter', () => {
+                gsap.to(loginButton, { duration: 0.2, scale: 1.03, ease: "power1.inOut" });
+            });
+            loginButton.addEventListener('mouseleave', () => {
+                gsap.to(loginButton, { duration: 0.2, scale: 1, ease: "power1.inOut" });
+            });
+
+            // Input focus animation
+            const inputs = document.querySelectorAll('input[type="email"], input[type="password"]');
+            inputs.forEach(input => {
+                input.addEventListener('focus', () => {
+                    gsap.to(input, { duration: 0.2, scale: 1.02, borderColor: "#6366F1", boxShadow: "0 0 0 2px rgba(99, 102, 241, 0.5)" });
+                });
+                input.addEventListener('blur', () => {
+                    gsap.to(input, { duration: 0.2, scale: 1, borderColor: "#D1D5DB", boxShadow: "none" });
+                });
+            });
+
+            // Forgot password link hover
+            const forgotLink = document.getElementById('forgotPasswordLink');
+            forgotLink.addEventListener('mouseenter', () => {
+                gsap.to(forgotLink, {duration: 0.2, color: "#4338CA", y: -1});
+            });
+            forgotLink.addEventListener('mouseleave', () => {
+                gsap.to(forgotLink, {duration: 0.2, color: "#4F46E5", y: 0});
+            });
+        });
+    </script>
+</body>
+</html>
